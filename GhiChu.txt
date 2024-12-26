@@ -1,0 +1,5 @@
+-- Lệnh khởi tạo dự án go: 
+B1: go mod init <module-name>
+B2: go mod tidy
+-- Lệnh chạy dự án go: 
+go run .

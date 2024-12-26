@@ -7,10 +7,11 @@ import (
 )
 
 func main() {
+	// Kết nối tới PostgreSQL
 	db := ConnectDB()
 	defer db.Close(context.Background())
 
-	// Đăng ký handler
+	// Đăng ký các route và handler
 	http.HandleFunc("/users", GetUsersHandler(db))
 	http.HandleFunc("/users/create", CreateUserHandler(db))
 
