@@ -8,6 +8,29 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// Lấy danh sách sản phẩm
+func GetProductHandler(db *pgx.Conn) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		rows, err := db.Query(context.Background(), "Select * from Product")
+		if err != nil {
+			http.Error(w, "Error fetching products", http.StatusInternalServerError)
+		}
+		defer rows.Close()
+
+		var products []Product
+		for rows.Next() {
+			var product Product
+			if err := rows.Scan(&product.ProductId, &product.ProductName, &product.Price, &product.Description); err != nil {
+				http.Error(w, "Error scanning product", http.StatusInternalServerError)
+				return
+			}
+			products = append(products, product)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(products)
+	}
+}
+
 // Lấy danh sách người dùng
 func GetUsersHandler(db *pgx.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -29,6 +52,8 @@ func GetUsersHandler(db *pgx.Conn) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+		// tạo một encoder JSON và gắn nó với http.ResponseWriter. Điều này có nghĩa là bất kỳ dữ liệu nào được mã
+		//hóa bằng encoder này sẽ được ghi trực tiếp vào HTTP response và gửi về cho client.
 		json.NewEncoder(w).Encode(users)
 	}
 }

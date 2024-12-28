@@ -3,3 +3,5 @@ B1: go mod init <module-name>
 B2: go mod tidy
 -- Lệnh chạy dự án go: 
 go run .
+-- Cách khắc phục về cảnh báo LF và CRLF
+git config --global core.autocrlf true (chuyển đổi LF sang CRLF khi work trên Windows, tự động đổi về LF khi tải lên repository)
