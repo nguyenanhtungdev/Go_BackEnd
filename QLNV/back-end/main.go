@@ -17,11 +17,15 @@ func main() {
 	mux.HandleFunc("/users", GetUsersHandler(db))
 	mux.HandleFunc("/users/create", CreateUserHandler(db))
 	mux.HandleFunc("/products", GetProductHandler(db))
+	mux.HandleFunc("/products/update", UpdateProductHandler(db))
+	mux.HandleFunc("/products/add",AddNewProductHandler(db))
+	mux.HandleFunc("/products/sorted", GetSortedProductsHandler(db))
+
 
 	// Cấu hình CORS chỉ định các domain được phép: domain, method, header
 	handler := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000"},
-		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowedMethods: []string{"GET", "POST", "OPTIONS","PUT"},
 		AllowedHeaders: []string{"Content-Type"},
 	}).Handler(mux)
 

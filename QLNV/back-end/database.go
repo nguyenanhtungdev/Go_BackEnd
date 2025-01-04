@@ -8,7 +8,9 @@ import (
 )
 
 func ConnectDB() *pgx.Conn { // Giống như instance
-	connStr := "postgres://postgres:12345@localhost:5432/QLSV"
+	connStr := "postgres://postgres:12345@host.docker.internal:5432/QLSV"
+
+
 	// Kết nối đến PostgreSQL
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {

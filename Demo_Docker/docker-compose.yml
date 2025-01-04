@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8070:8070"
+    volumes:
+      - .:/app
+      - ./vendor:/app/vendor:ro
+    environment:
+      - DATABASE_URL=postgres://postgres:12345@db:5432/QLSV
+    depends_on:
+      - db
+    command: ["go", "run", "."]
+
+  db:
+    image: postgres:15
+    container_name: postgres_container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: QLSV
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

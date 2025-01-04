@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"sort"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -28,6 +29,99 @@ func GetProductHandler(db *pgx.Conn) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(products)
+	}
+}
+// API cập nhật sản phẩm
+func UpdateProductHandler(db *pgx.Conn) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        if r.Method != http.MethodPut {
+            http.Error(w, "Chỉ hỗ trợ PUT", http.StatusMethodNotAllowed)
+            return
+        }
+
+        var product Product
+        err := json.NewDecoder(r.Body).Decode(&product)
+        if err != nil {
+			http.Error(w, "Dữ liệu không hợp lệ", http.StatusBadRequest)
+            return
+        }
+
+        // Cập nhật sản phẩm trong DB
+        query := `UPDATE Product SET "productName" = $1, price = $2, description = $3 WHERE "productId" = $4`
+		_, err = db.Exec(context.Background(), query, product.ProductName, product.Price, product.Description, product.ProductId)
+        if err != nil {
+            http.Error(w, "Lỗi khi cập nhật sản phẩm", http.StatusInternalServerError)
+            return
+        }
+
+        w.WriteHeader(http.StatusOK)
+    }
+}
+
+//API sap xep 
+func GetSortedProductsHandler(db *pgx.Conn)  http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request) {
+		query := "Select *from Product"
+		rows, err := db.Query(context.Background(),query)
+
+		if err != nil{
+			http.Error(w, "Error fetching products", http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		var products []Product
+		for rows.Next() {
+			var product Product
+			if err := rows.Scan(&product.ProductId, &product.ProductName, &product.Price, &product.Description); err != nil {
+				http.Error(w, "Error scanning user", http.StatusInternalServerError)
+				return
+			}
+			products = append(products, product)
+		}
+
+		sortField := r.URL.Query().Get("sortField")
+		sortOrder := r.URL.Query().Get("sortOrder")
+
+		sort.Slice(products, func(i, j int) bool {
+			if sortField == "productName" {
+				if sortOrder == "asc" {
+					return products[i].ProductName < products[j].ProductName
+				}
+				return products[i].ProductName > products[j].ProductName
+			}
+			// Mặc định sắp xếp theo Price
+			if sortOrder == "asc" {
+				return products[i].Price < products[j].Price
+			}
+			return products[i].Price > products[j].Price
+		})
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(products)
+	}
+}
+
+func AddNewProductHandler(db *pgx.Conn) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+            http.Error(w, "Chỉ hỗ trợ POST", http.StatusMethodNotAllowed)
+            return
+        }
+		var product Product
+		err := json.NewDecoder(r.Body).Decode((&product))
+		if err != nil{
+			http.Error(w,"Dữ liệu không hợp lệ",http.StatusBadRequest)
+			return
+		}
+
+		query := `Insert into Product ("productId","productName",price, description) values ($1,$2,$3,$4)`
+		_, err = db.Exec(context.Background(),query,product.ProductId,product.ProductName, product.Price, product.Description)
+		if err != nil {
+            http.Error(w, "Lỗi khi thêm sản phẩm", http.StatusInternalServerError)
+            return
+        }
+		w.WriteHeader(200)
 	}
 }
 
