@@ -2,17 +2,20 @@ version: "3.8"
 
 services:
   front-end:
+    # Xây dựng image từ docker file
     build:
       context: ./front-end
       dockerfile: Dockerfile
     ports:
       - ${PORT_FRONTEND}:${PORT_FRONTEND}
+    # Gắn thư mục host với container
     volumes:
       # Đồng bộ mã nguồn giữa máy chủ host và container
       - ./front-end:/app
       # Khi dùng bind mounts để đồng bộ hóa mã nguồn giữa host và container
       # sử dụng dòng dưới để giúp node_modules không bị ghi đè khi host có bị thay đổi
-      - node_modules:/app/node_modules:ro
+      - node_modules:/app/node_modules
+    # Truyền biến môi trường vào container
     environment:
       - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
     stdin_open: true
@@ -44,6 +47,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   postgres_data:

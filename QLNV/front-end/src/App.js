@@ -103,6 +103,7 @@ function App() {
         body: JSON.stringify({
           ...formData,
           price: parseInt(formData.price, 10),
+          productID: parseInt(formData.productID),
         }),
       });
 

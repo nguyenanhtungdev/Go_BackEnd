@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sort"
 
@@ -45,9 +46,13 @@ func UpdateProductHandler(db *pgx.Conn) http.HandlerFunc {
 			http.Error(w, "Dữ liệu không hợp lệ", http.StatusBadRequest)
             return
         }
-
+		fmt.Printf("ProductId: %v (%T)\n", product.ProductId, product.ProductId)
+		fmt.Printf("ProductName: %v (%T)\n", product.ProductName, product.ProductName)
+		fmt.Printf("Price: %v (%T)\n", product.Price, product.Price)
+		fmt.Printf("Description: %v (%T)\n", product.Description, product.Description)
+		
         // Cập nhật sản phẩm trong DB
-        query := `UPDATE Product SET "productName" = $1, price = $2, description = $3 WHERE "productId" = $4`
+        query := `UPDATE product SET productName = $1, price = $2, descriptions = $3 WHERE productId = $4`
 		_, err = db.Exec(context.Background(), query, product.ProductName, product.Price, product.Description, product.ProductId)
         if err != nil {
             http.Error(w, "Lỗi khi cập nhật sản phẩm", http.StatusInternalServerError)

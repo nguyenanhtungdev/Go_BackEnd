@@ -7,8 +7,8 @@ type User struct {
 }
 
 type Product struct {
-	ProductId   string  `json:"productID"`
+	ProductId   int     `json:"productID"`
 	ProductName string  `json:"productName"`
-	Price       int     `json:"price"`
-	Description *string `json:"description"` // Sử dụng *string để xử lý null
+	Price       float64 `json:"price"`
+	Description string  `json:"description"` // Sử dụng *string để xử lý null
 }
