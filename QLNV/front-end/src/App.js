@@ -39,7 +39,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/products")
+    fetch("http://localhost:8020/products")
       .then((response) => response.json())
       .then((data) => {
         setTasks(data);
@@ -49,7 +49,7 @@ function App() {
 
   const fetchSortedProducts = async (field, order) => {
     fetch(
-      `http://localhost:8080/products/sorted?sortField=${field}&sortOrder=${order}`
+      `http://localhost:8020/products/sorted?sortField=${field}&sortOrder=${order}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -60,7 +60,7 @@ function App() {
 
   const handleInsert = async () => {
     try {
-      const response = await fetch("http://localhost:8080/products/add", {
+      const response = await fetch("http://localhost:8020/products/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ function App() {
         handleAction();
         setFormData(false);
 
-        fetch("http://localhost:8080/products")
+        fetch("http://localhost:8020/products")
           .then((response) => response.json())
           .then((data) => {
             setTasks(null);
@@ -95,7 +95,7 @@ function App() {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch("http://localhost:8080/products/update", {
+      const response = await fetch("http://localhost:8020/products/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ function App() {
         handleAction();
         setShowForm(false);
 
-        fetch("http://localhost:8080/products")
+        fetch("http://localhost:8020/products")
           .then((response) => response.json())
           .then((data) => {
             setTasks(null);

@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT_FRONTEND}:${PORT_FRONTEND}
+    volumes:
+      # Đồng bộ mã nguồn giữa máy chủ host và container
+      - ./front-end:/app
+      # Khi dùng bind mounts để đồng bộ hóa mã nguồn giữa host và container
+      # sử dụng dòng dưới để giúp node_modules không bị ghi đè khi host có bị thay đổi
+      - node_modules:/app/node_modules:ro
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    stdin_open: true
+    tty: true
+
+  back-end:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT_BACKEND}:${PORT_BACKEND}
+    volumes:
+      - ./back-end:/app
+      - ./back-end/vendor:/app/vendor:ro
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+
+  db:
+    # Sử dụng phiên bản 15, để sử dụng được thì cần phải pull image này về: docker pull postgres:latest hoặc docker pull postgres:15
+    image: postgres:15
+    container_name: postgres_container_QLNV
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  node_modules:

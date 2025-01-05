@@ -1,0 +1,15 @@
+*.log
+.git
+# Loại bỏ cấu hình phát triển
+.env.local
+README.md
+
+# Environment Variables & Security (Nếu cần, sử dụng dịch vụ như AWS Secrets Manager hoặc HashiCorp Vault để quản lý bí mật)
+.env
+# .dockerignore là một tệp cấu hình, tương tự như .gitignore, dùng để bỏ qua các tệp/thư mục 
+# không cần thiết khi sử dụng lệnh COPY hoặc ADD trong Dockerfile.
+Dockerfile
+# Sử dụng node_modules/ thay vì ./front-end/node_modules giúp bao quát toàn bộ dự án, đề phòng các
+#  thư mục node_modules khác trong cấu trúc.
+node_modules/
+# Sử dụng quy tắc cụ thể (front-end/node_modules/) nếu muốn chỉ loại bỏ ở một thư mục cụ thể.

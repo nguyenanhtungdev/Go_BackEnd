@@ -2,7 +2,6 @@ package main
 
 import (
 	"Tuan3/entity"
-	"encoding/json"
 	"fmt"
 	"sort"
 )
@@ -11,7 +10,6 @@ type Salary float64
 type Price float64
 
 func main() {
-	fmt.Println("Hi")
 	var user entity.User
 	{
 		user.UserId = "NV0001"
@@ -19,11 +17,25 @@ func main() {
 		user.Age = 20
 	}
 
-	jsonData, _ := json.Marshal(user)
-	fmt.Println(string(jsonData))
+	student := entity.Student{
+		ClassName: "DHKTPM18ATT",
+		Point: 20.5,
+		Person: entity.Person{
+			PersonID: "ID93812",
+			FullName: "Nguyen Anh Tung",
+			Age: 20,
+		},
+	}
+
+	fmt.Println(user)
+	fmt.Println(student)	
+	fmt.Println(student.Person.Age)
+
+	// jsonData, _ := json.Marshal(user)
+	// fmt.Println(string(jsonData))
 	// nhapLuong()
 	// sortSalary()
-	testMap()
+	// testMap()
 }
 
 //Go không hỗ trợ toán tử ba ngôi (ternary operator)
@@ -98,6 +110,5 @@ func testMap() bool {
 	// if exists {
 	// 	fmt.Println(value)
 	// }
-
 	return true
 }

@@ -7,3 +7,15 @@ type User struct {
 	FullName string `json:"fullName"`
 	Age      int    `json:"age"`
 }
+
+type Person struct{
+	PersonID string `json:"personID"`
+	FullName string `json:"fullName"`
+	Age int `json:"age"`
+}
+
+type Student struct{
+	Person Person `json:"person"`
+	ClassName string `json:"className"`
+	Point float64
+}

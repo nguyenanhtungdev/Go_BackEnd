@@ -21,7 +21,7 @@ func GetProductHandler(db *pgx.Conn) http.HandlerFunc {
 		var products []Product
 		for rows.Next() {	
 			var product Product
-			if err := rows.Scan(&product.ID, &product.Name, &product.Price, &product.Description); err != nil {
+			if err := rows.Scan(&product.ProductID, &product.ProductName, &product.Price, &product.Description); err != nil {
 				http.Error(w, "Error scanning product", http.StatusInternalServerError)
 				return
 			}

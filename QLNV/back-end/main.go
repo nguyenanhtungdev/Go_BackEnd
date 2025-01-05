@@ -29,6 +29,6 @@ func main() {
 		AllowedHeaders: []string{"Content-Type"},
 	}).Handler(mux)
 
-	log.Println("Server is running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	log.Println("Server is running on port 8020")
+	log.Fatal(http.ListenAndServe(":8020", handler))
 }

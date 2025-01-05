@@ -6,3 +6,9 @@ go run .
 -- Cách khắc phục về cảnh báo LF và CRLF
 git config --global core.autocrlf true (chuyển đổi LF sang CRLF khi work trên Windows, 
 tự động đổi về LF khi tải lên repository)
+
+Thay đổi về việc thêm thư mục hoặc file vào gitignore
+B1: Thêm thư mục hoặc file mà ta không muốn đẩy lên git
+B2: git rm -r --cached Demo_Docker/vendor/ (Xóa thư mục này trên git nhưng vẫn giữ nguyên trên cục bộ)
+-r: Xóa thư mục và tất cả nội dung bên trong.
+--cached: Chỉ xóa khỏi index của Git, giữ lại thư mục vendor trên máy cục bộ.
