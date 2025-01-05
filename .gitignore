@@ -1,1 +1,3 @@
 /Demo_Docker/vendor/
+/go.mod
+/go.sum
