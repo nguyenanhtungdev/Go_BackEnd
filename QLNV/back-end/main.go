@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/cors"
 )
@@ -30,5 +32,6 @@ func main() {
 	}).Handler(mux)
 
 	log.Println("Server is running on port 8020")
-	log.Fatal(http.ListenAndServe(":8020", handler))
+	// log.Fatal(http.ListenAndServe(":8020", handler))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s",os.Getenv("PORT_BACKEND")),handler))
 }

@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   front-end:
     # Xây dựng image từ docker file
@@ -11,15 +9,19 @@ services:
     # Gắn thư mục host với container
     volumes:
       # Đồng bộ mã nguồn giữa máy chủ host và container
-      - ./front-end:/app
+      - ./front-end/src:/app/src
       # Khi dùng bind mounts để đồng bộ hóa mã nguồn giữa host và container
       # sử dụng dòng dưới để giúp node_modules không bị ghi đè khi host có bị thay đổi
       - node_modules:/app/node_modules
     # Truyền biến môi trường vào container
     environment:
       - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+      - PORT_BACKEND
+    # Tương tác với container trong khi container chạy
     stdin_open: true
     tty: true
+    depends_on:
+      - back-end
 
   back-end:
     build:
@@ -32,8 +34,13 @@ services:
       - ./back-end/vendor:/app/vendor:ro
     environment:
       - DATABASE_URL=${DATABASE_URL}
+    # Chỉ định rằng service này phụ thuộc vào service db, nếu db chạy thành công thì mới chạy được
     depends_on:
       - db
+    env_file:
+      - ./.env
+    stdin_open: true
+    tty: true
 
   db:
     # Sử dụng phiên bản 15, để sử dụng được thì cần phải pull image này về: docker pull postgres:latest hoặc docker pull postgres:15

@@ -12,3 +12,10 @@ B1: Thêm thư mục hoặc file mà ta không muốn đẩy lên git
 B2: git rm -r --cached Demo_Docker/vendor/ (Xóa thư mục này trên git nhưng vẫn giữ nguyên trên cục bộ)
 -r: Xóa thư mục và tất cả nội dung bên trong.
 --cached: Chỉ xóa khỏi index của Git, giữ lại thư mục vendor trên máy cục bộ.
+
+Thêm remote khi mới tạo repositories
+git remote add origin link.......
+Tạo file .gitignore
+C1: vào thẳng git bash rồi di chuyển den vi tri thu muc can tao
+touch .gitignore
+C2: tao thu cong

@@ -1,7 +1,7 @@
 FROM golang:1.23.4 
 
 WORKDIR /app
-# Copy toàn bộ mã nguồn vào image
+# Copy toàn bộ mã nguồn vào image /app
 COPY . /app
 
 COPY go.mod go.sum ./
