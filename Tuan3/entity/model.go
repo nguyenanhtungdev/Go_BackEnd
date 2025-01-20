@@ -19,3 +19,7 @@ type Student struct{
 	ClassName string `json:"className"`
 	Point float64
 }
+
+func (user *User) UpdateNameUser(newFullName string) {
+    user.FullName = newFullName
+}

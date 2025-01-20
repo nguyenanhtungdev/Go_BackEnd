@@ -1,5 +1,6 @@
 *.log
 .git
+*.ppk
 # Loại bỏ cấu hình phát triển
 .env.local
 README.md

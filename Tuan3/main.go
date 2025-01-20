@@ -30,6 +30,10 @@ func main() {
 	fmt.Println(user)
 	fmt.Println(student)	
 	fmt.Println(student.Person.Age)
+	isCheck := false
+	fmt.Printf("hhi: %t \n",isCheck)
+	user.UpdateNameUser("Test")
+	fmt.Println(user)
 
 	// jsonData, _ := json.Marshal(user)
 	// fmt.Println(string(jsonData))
@@ -50,6 +54,7 @@ func (salary Salary) isCheck() bool {
 func (price Price) isCheck() bool {
 	return price > 0.0
 }
+
 func nhapLuong() {
 	var salaryEmployee Salary
 	fmt.Println("Nhập lương: ")
