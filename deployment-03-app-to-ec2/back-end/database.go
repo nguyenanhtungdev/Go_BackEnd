@@ -19,7 +19,6 @@ func ConnectDB() *pgx.Conn { // Giống như instance
         os.Getenv("DB_PORT"),
         os.Getenv("DB_NAME"),
     )
-	fmt.Println("Chuỗi kết nối:", connStr)
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		log.Fatalf("Không thể kết nối đến PostgreSQL: %v\n", err)
